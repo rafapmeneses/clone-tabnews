@@ -18,7 +18,8 @@
     "lint:prettier:check": "prettier --check .",
     "lint:prettier:fix": "prettier --write .",
     "lint:eslint:check": "next lint --dir .",
-    "prepare": "husky",
+    "prepare": "husky && chmod +x .husky/*",
+    "postinstall": "npm run prepare",
     "commit": "cz"
   },
   "author": "",
