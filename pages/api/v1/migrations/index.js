@@ -1,14 +1,26 @@
 import migrationRunner from "node-pg-migrate";
 import { resolve } from "node:path";
 import database from "infra/database.js";
+import { createRouter } from "next-connect";
+import { onErrorHandler, onNoMatchHandler } from "infra/nextConnectImpl";
 
-export default async function migrations(request, response) {
-  const allowedMethods = ["GET", "POST"];
-  if (!allowedMethods.includes(request.method)) {
-    return response.status(405).json({
-      error: `Method "${request.method}" not allowed`,
-    });
-  }
+const router = createRouter();
+
+router.get(getHandler);
+router.post(getHandler);
+
+export default router.handler({
+  onNoMatch: onNoMatchHandler,
+  onError: onErrorHandler,
+});
+
+async function getHandler(request, response) {
+  // const allowedMethods = ["GET", "POST"];
+  // if (!allowedMethods.includes(request.method)) {
+  //   return response.status(405).json({
+  //     error: `Method "${request.method}" not allowed`,
+  //   });
+  // }
 
   let dbClient;
 
