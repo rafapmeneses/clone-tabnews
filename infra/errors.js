@@ -55,3 +55,21 @@ export class ServiceError extends Error {
     };
   }
 }
+
+export class MigratorError extends Error {
+  constructor({ cause, statusCode }) {
+    super("Erro durante os processos de migrator.", {
+      cause,
+    });
+    this.name = "MigratorError";
+    this.statusCode = statusCode || 500;
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      status_code: this.statusCode,
+    };
+  }
+}
